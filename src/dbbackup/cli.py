@@ -1,4 +1,7 @@
+from typing import Annotated
 import typer
+
+from dbbackup import __version__
 
 app = typer.Typer(
     name = "dbbackup",
@@ -6,21 +9,34 @@ app = typer.Typer(
     no_args_is_help=True,
         )
 
-@app.callback()
-def main() -> None:
-    """
+
+def version_callback(value:bool) -> None:
+    """Print the version and exit if --version was passed  """
+    if value:
+        typer.echo(f"dbbackup v{__version__}")
+        raise typer.Exit()
     
+
+@app.callback()
+def main(
+    show_version: Annotated[
+        bool,
+        typer.Option(
+            "--version",
+            "-V",
+            callback=version_callback,
+            is_eager=True,
+            help="Show the version and exit.",),
+        ] = False,
+        ) -> None:
+    """
     Database backup utility.
 
     Manage db backup and restore operations.
     """
-    pass
+   
 
 
-@app.command()
-def version() -> None:
-    """Show the current app version."""
-    print("Db backup utility v0.1.0")
 
 @app.command()
 def test_connection(database: str) -> None:
