@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "database-backup-utility"
+version = "0.1.0"
+description = "A CLI tool for db backup and restore operations"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "typer>=0.29.2",
+]
+
+[project.scripts]
+dbbackup = "dbbackup.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dbbackup"]
+
+
+
